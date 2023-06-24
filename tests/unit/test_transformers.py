@@ -5,6 +5,10 @@ from chispa.dataframe_comparer import assert_df_equality
 
 
 class TransformersTest(unittest.TestCase):
+    """
+    Unit tests for the PySpark custom transformers implemented.
+    """
+
     @classmethod
     def setUpClass(cls):
         # Initialize SparkSession
