@@ -34,13 +34,3 @@ repos:
   rev: 'v0.0.261'
   hooks:
     - id: ruff
-# PyLint: Linter
-#For more information: https://github.com/PyCQA/pylint
--   repo: local
-    hooks:
-      - id: pylint
-        name: pylint
-        entry: pylint
-        language: system
-        args: [syntho, tests, --enable=unused-import, --max-line-length=120, --fail-under=6, "--disable=missing-module-docstring,fixme,too-many-arguments,invalid-name,missing-function-docstring,duplicate-code", "-j 0"]
-        exclude: notebooks|docs|datasets|tests/unit/test_files|tests/unit/datasets|tests/unit/connectors/sql|
