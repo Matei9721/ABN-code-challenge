@@ -8,11 +8,13 @@ repos:
   hooks:
       - id: check-yaml # This hook checks yaml files  for parse-able syntax.
       - id: end-of-file-fixer # Ensures that a file is either empty, or ends with one newline.
+        exclude: '^requirements.txt$'  # Exclude requirements.txt file
       - id: trailing-whitespace # This hook trims trailing whitespace
       - id: check-docstring-first # Checks a common error of defining a docstring after code
       - id: check-added-large-files  # Prevent 10M+ files from being committed
         args: ['--maxkb=5000']
       - id: requirements-txt-fixer # Sorts entries in requirements.txt
+        exclude: '^requirements.txt$'  # Exclude requirements.txt file
       - id: debug-statements # Checks for debugger imports and py37+ `breakpoint()` calls
 # Commitizen: Conventional commits checker
 -   repo: https://github.com/commitizen-tools/commitizen
@@ -34,13 +36,3 @@ repos:
   rev: 'v0.0.261'
   hooks:
     - id: ruff
-# PyLint: Linter
-#For more information: https://github.com/PyCQA/pylint
--   repo: local
-    hooks:
-      - id: pylint
-        name: pylint
-        entry: pylint
-        language: system
-        args: [syntho, tests, --enable=unused-import, --max-line-length=120, --fail-under=6, "--disable=missing-module-docstring,fixme,too-many-arguments,invalid-name,missing-function-docstring,duplicate-code", "-j 0"]
-        exclude: notebooks|docs|datasets|tests/unit/test_files|tests/unit/datasets|tests/unit/connectors/sql|
