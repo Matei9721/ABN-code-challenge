@@ -1,8 +1,12 @@
 import argparse
-from data_processing import transform_data
+from src.data_processing import transform_data
+from src.custom_logging import SingletonLogger
 
 
 def main():
+    # Create logger
+    logger = SingletonLogger()
+
     # Argument parser
     parser = argparse.ArgumentParser(
         description="KommatiPara Script for retrieving client data."
@@ -23,9 +27,12 @@ def main():
     # Parse the command-line arguments
     args = parser.parse_args()
 
+    logger.info("Arguments parsed successfully, starting processing steps!")
+
     # retrieve data
     final_data = transform_data(args.dataset1, args.dataset2, args.countries_to_filter)
 
+    logger.info("Data processing finished successfully, saving output to disk.")
     # Export data
     final_data.toPandas().to_csv(
         "../client_data/transformed_client_data.csv", index=False

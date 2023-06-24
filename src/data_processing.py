@@ -1,7 +1,9 @@
 from src.transformers import ColumnRemover, CountryFilter, RenameColumns
 from pyspark.ml import Pipeline
 from pyspark.sql import SparkSession
+from src.custom_logging import SingletonLogger
 
+logger = SingletonLogger()
 column_name_mappings = {
     "id": "client_identifier",
     "btc_a": "bitcoin_address",
@@ -12,9 +14,9 @@ column_name_mappings = {
 def transform_data(
     dataset1: str = None, dataset2: str = None, countries_to_filter: list = []
 ):
-    print("Argument 1:", dataset1)
-    print("Argument 2:", dataset2)
-    print("Argument 3:", countries_to_filter)
+    logger.debug(f"Dataset 1: {dataset1}")
+    logger.debug(f"Dataset 2: {dataset2}")
+    logger.debug(f"Countries to filter {countries_to_filter}")
 
     # Initialize spark
     spark = SparkSession.builder.appName("ABN-assignment").getOrCreate()
@@ -22,6 +24,8 @@ def transform_data(
     # Read datasets
     clients = spark.read.csv(dataset1, header=True)
     client_data = spark.read.csv(dataset2, header=True)
+
+    logger.info("Finished reading data")
 
     # Initialize transformers
     country_filter = CountryFilter(
@@ -41,10 +45,14 @@ def transform_data(
     client_data_fit = client_data_pipeline.fit(client_data)
     client_data_output = client_data_fit.transform(client_data)
 
+    logger.info("Finished processing data")
+
     # Join datasets
     final_data = client_output.join(client_data_output, on="id")
 
     # Rename columns
     final_data = column_renamer.transform(final_data)
+
+    logger.info("Datasets joined and filtered successfully.")
 
     return final_data
