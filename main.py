@@ -4,10 +4,15 @@ from src.custom_logging import SingletonLogger
 
 
 def main():
+    """
+    Driver function for the script that reads the terminal arguments
+    and passes them to the transformation function.
+    :return: Void
+    """
     # Create logger
     logger = SingletonLogger()
 
-    # Argument parser
+    # Argument parser (Can be done in a separate class if the code grows)
     parser = argparse.ArgumentParser(
         description="KommatiPara Script for retrieving client data."
     )

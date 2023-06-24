@@ -1,13 +1,18 @@
-# Adapted from https://gist.github.com/huklee/cea20761dd05da7c39120084f52fcc7c
 import logging
 import os
 import datetime
 
 
 class SingletonLogger:
+    """
+    Logger class that implemented the Singleton pattern. Design and code adapted from:
+    https://gist.github.com/huklee/cea20761dd05da7c39120084f52fcc7c
+    """
+
     _logger = None
 
     def __new__(cls, *args, **kwargs):
+        # Initialize for the first time
         if cls._logger is None:
             cls._logger = super().__new__(cls, *args, **kwargs)
             cls._logger = logging.getLogger("crumbs")

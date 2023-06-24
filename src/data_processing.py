@@ -2,8 +2,12 @@ from src.transformers import ColumnRemover, CountryFilter, RenameColumns
 from pyspark.ml import Pipeline
 from pyspark.sql import SparkSession
 from src.custom_logging import SingletonLogger
+from pyspark.sql import DataFrame
 
+# Load logger
 logger = SingletonLogger()
+
+# Hardcoded mapping based on assignment requirements. Can be made dynamic.
 column_name_mappings = {
     "id": "client_identifier",
     "btc_a": "bitcoin_address",
@@ -13,7 +17,17 @@ column_name_mappings = {
 
 def transform_data(
     dataset1: str = None, dataset2: str = None, countries_to_filter: list = []
-):
+) -> DataFrame:
+    """
+    Method containing main logic for merging the clients and client data, removing and
+     renaming the needed columns using the PySpark custom Transformers defined.
+
+    :param dataset1: Path to first dataset (client dataset)
+    :param dataset2: Path to second dataset (client bitcoin information dataset)
+    :param countries_to_filter: List of countries to be kept in the output
+
+    :return: PySpark DataFrame containing the processed data
+    """
     logger.debug(f"Dataset 1: {dataset1}")
     logger.debug(f"Dataset 2: {dataset2}")
     logger.debug(f"Countries to filter {countries_to_filter}")

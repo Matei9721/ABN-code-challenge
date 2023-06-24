@@ -5,6 +5,10 @@ from chispa.dataframe_comparer import assert_df_equality
 
 
 class ClientDataProcessingTest(unittest.TestCase):
+    """
+    End-to-end test for transforming and merging the client and client data
+    """
+
     @classmethod
     def setUpClass(cls):
         # Initialize SparkSession
